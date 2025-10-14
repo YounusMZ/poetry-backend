@@ -43,5 +43,7 @@ app.get("/random", (req, res) => {
     ;
     res.json(results);
 });
-app.listen(port);
+app.listen(port, () => {
+    console.log(`server listening on port ${port}`);
+});
 //# sourceMappingURL=server.js.map

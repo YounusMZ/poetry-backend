@@ -47,4 +47,6 @@ app.get("/random", (req: Request, res: Response) => {
     res.json(results);
 });
 
-app.listen(port);
+app.listen(port, () => {
+    console.log(`server listening on port ${port}`);
+});

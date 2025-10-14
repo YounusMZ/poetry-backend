@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import type { Request, Response } from "express";
-import papa from "papaparse";
 import fs from "fs";
-import type { Poem, SearchResult } from "./util/poem.js";
+import papa from "papaparse";
+import type { Poem, SearchResult } from "./Util/poem.js";
 
 const app = express();
 app.use(cors());
@@ -48,5 +48,5 @@ app.get("/random", (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-    console.log(`server listening on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 });

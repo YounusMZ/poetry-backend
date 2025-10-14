@@ -3,41 +3,48 @@ import cors from "cors";
 import type { Request, Response } from "express";
 import papa from "papaparse";
 import fs from "fs";
-import type { Poem } from "./Util/poem.js";
+import type { Poem, SearchResult } from "./Util/poem.js";
 
 const app = express();
 app.use(cors());
 const port : number = 3000;
 
-app.get("/search", (req: Request, res: Response) => {
-    let csvParsed : Object = {};
-    const csvFile : string = fs.readFileSync("./PoetryFoundationData.csv", 'utf8');
-    papa.parse(csvFile, {
-        header: true,
-        dynamicTyping: true,
-        complete: (results) => {
-            csvParsed = results.data;
-        }
-    })
-
-    const bookTerms : string[] | undefined = req.query.book?.toString().split("%20");
-    console.log(bookTerms);
-
-    const results : Array<Poem> = [];
-    //console.log(Object.entries(csvParsed));
-    for (const [key, value] of Object.entries(csvParsed)){
-        //console.log(key, value["Title"])
-        if(bookTerms){
-            for (const term of bookTerms){
-                const title : string = String(value["Title"]);
-                //console.log(key, title, typeof value, title.includes(term))
-                if((title.includes(term)))
-                    results.push(value);
-            }
-        }
+let csvParsed : SearchResult = {};
+const csvFile : string = fs.readFileSync("./PoetryFoundationData.csv", 'utf8');
+papa.parse(csvFile, {
+    header: true,
+    dynamicTyping: true,
+    complete: (results) => {
+        csvParsed = results.data as SearchResult;
     }
-    //console.log(results[0]!["Title"]);
+});
+
+app.get("/search", (req: Request, res: Response) => {
+    const bookTerms : string[] | undefined = req.query.poem?.toString().split("%20");
+    const results : Array<Poem> = [];
+    
+    for (const [key, value] of Object.entries(csvParsed)){
+        if(bookTerms){
+            const title : string = String(value["Title"]).toLowerCase();
+            if(bookTerms.every(term => title.includes(term.toLowerCase()))){
+                results.push(value);
+            };
+        };
+    };
     res.json(results);
-})
+});
+
+app.get("/random", (req: Request, res: Response) => {
+    let randomNumber: Array<number> = Array.from({ length: 10 }, () => Math.floor(Math.random() * 10000));
+    const results : Array<Poem> = [];
+
+    for (const number of randomNumber){
+        const poem: Poem | undefined = csvParsed[number];
+        if(poem){
+            results.push(poem);
+        };
+    };
+    res.json(results);
+});
 
 app.listen(port);

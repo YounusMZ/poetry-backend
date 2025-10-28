@@ -28,4 +28,4 @@ To run:
 * run `node server` to start the server. Default port is 3000.
 
 ## Planned features
-* importing from json
+* Importing from json

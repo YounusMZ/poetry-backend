@@ -1,23 +1,41 @@
 import express from "express";
 import cors from "cors";
-import papa from "papaparse";
 import fs from "fs";
+import papa from "papaparse";
 const app = express();
 app.use(cors());
 const port = 3000;
-let csvParsed = {};
-const csvFile = fs.readFileSync("./PoetryFoundationData.csv", 'utf8');
-papa.parse(csvFile, {
-    header: true,
-    dynamicTyping: true,
-    complete: (results) => {
-        csvParsed = results.data;
+const datasetRelativePath = process.argv[2];
+let dataParsed = {};
+if (datasetRelativePath && fs.existsSync(datasetRelativePath)) {
+    console.log("it exists");
+    if (datasetRelativePath.endsWith(".csv")) {
+        console.log("csv yay");
+        const csvFile = fs.readFileSync(datasetRelativePath, 'utf8');
+        papa.parse(csvFile, {
+            header: true,
+            dynamicTyping: true,
+            complete: (results) => {
+                dataParsed = results.data;
+            }
+        });
     }
-});
+    else if (datasetRelativePath.endsWith(".json")) {
+        console.log("json yay");
+        fs.readFile(datasetRelativePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error("error loading data. Please enter the correct path and check if the file exists.", err);
+            }
+            else {
+                dataParsed = JSON.parse(data);
+            }
+        });
+    }
+}
 app.get("/search", (req, res) => {
     const bookTerms = req.query.poem?.toString().split("%20");
     const results = [];
-    for (const [key, value] of Object.entries(csvParsed)) {
+    for (const [key, value] of Object.entries(dataParsed)) {
         if (bookTerms) {
             const title = String(value["Title"]).toLowerCase();
             if (bookTerms.every(term => title.includes(term.toLowerCase()))) {
@@ -34,7 +52,7 @@ app.get("/random", (req, res) => {
     let randomNumber = Array.from({ length: 10 }, () => Math.floor(Math.random() * 10000));
     const results = [];
     for (const number of randomNumber) {
-        const poem = csvParsed[number];
+        const poem = dataParsed[number];
         if (poem) {
             results.push(poem);
         }
@@ -44,6 +62,6 @@ app.get("/random", (req, res) => {
     res.json(results);
 });
 app.listen(port, () => {
-    console.log(`server listening on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 });
 //# sourceMappingURL=server.js.map

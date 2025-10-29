@@ -8,9 +8,7 @@ const port = 3000;
 const datasetRelativePath = process.argv[2];
 let dataParsed = {};
 if (datasetRelativePath && fs.existsSync(datasetRelativePath)) {
-    console.log("it exists");
     if (datasetRelativePath.endsWith(".csv")) {
-        console.log("csv yay");
         const csvFile = fs.readFileSync(datasetRelativePath, 'utf8');
         papa.parse(csvFile, {
             header: true,
@@ -21,7 +19,6 @@ if (datasetRelativePath && fs.existsSync(datasetRelativePath)) {
         });
     }
     else if (datasetRelativePath.endsWith(".json")) {
-        console.log("json yay");
         fs.readFile(datasetRelativePath, 'utf8', (err, data) => {
             if (err) {
                 console.error("error loading data. Please enter the correct path and check if the file exists.", err);
@@ -62,6 +59,6 @@ app.get("/random", (req, res) => {
     res.json(results);
 });
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on port ${port}...`);
 });
 //# sourceMappingURL=server.js.map

@@ -25,5 +25,5 @@ To set up:
 ### Executing program
 To run:
 * run `npx tsc` to build the js files after you've made changes.
-* run `node server` to start the server. Default port is 3000.
+* run `node server ".\poetry.json"` to start the server. Default port is 3000.
 

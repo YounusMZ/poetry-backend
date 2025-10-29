@@ -27,5 +27,3 @@ To run:
 * run `npx tsc` to build the js files after you've made changes.
 * run `node server` to start the server. Default port is 3000.
 
-## Planned features
-* Importing from json

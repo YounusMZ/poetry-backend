@@ -14,11 +14,13 @@
     "@types/express": "^5.0.3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "papaparse": "^5.5.3"
+    "papaparse": "^5.5.3",
+    "serve-favicon": "^2.5.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/papaparse": "^5.3.16",
+    "@types/serve-favicon": "^2.5.7",
     "typescript": "^5.9.2"
   }
 }

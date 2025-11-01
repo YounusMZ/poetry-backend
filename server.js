@@ -2,9 +2,22 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import papa from "papaparse";
+import path from "path";
+import { fileURLToPath } from "url";
+import favicon from "serve-favicon";
 const app = express();
+const port = Number(process.env.PORT) || 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildDir = path.join(__dirname, 'build/dist');
 app.use(cors());
-const port = 3000;
+if (fs.existsSync(buildDir)) {
+    app.use(express.static(buildDir));
+    app.use(favicon(path.join(buildDir, "vite.svg")));
+    app.get("/", (req, res) => {
+        res.sendFile(path.join(buildDir, "index.html"));
+    });
+}
 const datasetRelativePath = process.argv[2];
 let dataParsed = {};
 if (datasetRelativePath && fs.existsSync(datasetRelativePath)) {

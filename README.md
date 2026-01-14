@@ -5,7 +5,7 @@
 Backend for [poetry-backend](https://github.com/YounusMZ/poetry-frontend). It exposes APIs to search for poems and to get random poems for the serendipity.
 
 ## Features
-* Import poem sets from csv(json planned).
+* Import poem sets from csv and json.
 * Retrive random poems.
 * Search for poems with keywords.
 * Made with Node.js and Express.js.

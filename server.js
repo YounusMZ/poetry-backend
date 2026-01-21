@@ -9,7 +9,7 @@ import { parseJsonOrCsv, migratePoemstoDb } from "./Util/migrate_tools/migrateto
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const __filename = fileURLToPath(import.meta.url);
-const buildDir = path.join(__filename, 'build/dist');
+const buildDir = path.join(path.dirname(__filename), 'build/dist');
 app.use(cors());
 //migrate from json
 if (db.isEmpty()) {
@@ -28,6 +28,7 @@ else {
 }
 //APIs
 if (fs.existsSync(buildDir)) {
+    console.log(buildDir);
     app.use(express.static(buildDir));
     app.use(favicon(path.join(buildDir, "vite.svg")));
     app.get("/", (req, res) => {

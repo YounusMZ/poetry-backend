@@ -2,18 +2,11 @@ import BetterSqlite3 from "better-sqlite3";
 import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
-import type { Poem } from "./poem.js";
-
-interface CountResult{
-    NoOfEntries : number;
-}
-
 const dbPath = path.join("./../database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }
-
-export const poemDb : BetterSqlite3.Database = new Database(dbPath + '/poems.db');
+export const poemDb = new Database(dbPath + '/poems.db');
 poemDb.prepare(`
     CREATE TABLE IF NOT EXISTS poems (
         id INTEGER PRIMARY KEY,
@@ -23,46 +16,42 @@ poemDb.prepare(`
         Tags TEXT
     )
 `).run();
-
-export function getNoOfEntries(){
-    const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get() as CountResult;
+export function getNoOfEntries() {
+    const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get();
     return count.NoOfEntries;
 }
-
-export function isEmpty(){
-    const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get() as CountResult;
-    const countNumber: Boolean = count.NoOfEntries == 0 ? true : false;
+export function isEmpty() {
+    const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get();
+    const countNumber = count.NoOfEntries == 0 ? true : false;
     return countNumber;
 }
-
-export function addPoem(poem: Poem){
+export function addPoem(poem) {
     const insertPoem = poemDb.prepare(`INSERT OR IGNORE INTO poems (id, Title, Poem, Poet, Tags) VALUES (?, ?, ?, ?, ?)`);
     insertPoem.run(poem.id, poem.Title, poem.Poem, poem.Poet, poem.Tags);
 }
-
-export function searchForPoems(searchTerms: string[]): Poem[]{
+export function searchForPoems(searchTerms) {
     const searchparams = searchTerms.map(term => `'%${term}%'`);
     const whereClause = searchparams.map(param => `title LIKE ${param}`).join(' AND ');
-    const searchPoems = poemDb.prepare<[], Poem>(`SELECT * FROM poems WHERE ${whereClause}`).all();
+    const searchPoems = poemDb.prepare(`SELECT * FROM poems WHERE ${whereClause}`).all();
     return searchPoems;
 }
-
-export function getPoemsWithID(poemIDs: number[]): Poem[] {
-    if (!isEmpty()){
+export function getPoemsWithID(poemIDs) {
+    if (!isEmpty()) {
         const poemIDsString = poemIDs.join(", ");
-        const getRandomQuery = poemDb.prepare<[], Poem>(`SELECT * FROM poems WHERE id IN (${poemIDsString})`);
+        const getRandomQuery = poemDb.prepare(`SELECT * FROM poems WHERE id IN (${poemIDsString})`);
         const randompoems = getRandomQuery.all();
         return randompoems;
-    } else return [];
+    }
+    else
+        return [];
 }
-
 //for testing
-export const getPoem = (index: number): Poem | undefined => {
-    const getPoemQuery = poemDb.prepare<number, Poem>("SELECT * FROM poems WHERE id = ?")
+export const getPoem = (index) => {
+    const getPoemQuery = poemDb.prepare("SELECT * FROM poems WHERE id = ?");
     const poem = getPoemQuery.get(index);
     return poem;
-}
-
-export function deleteAllPoems(){
+};
+export function deleteAllPoems() {
     poemDb.prepare(`DELETE FROM poems`).run();
 }
+//# sourceMappingURL=db.js.map

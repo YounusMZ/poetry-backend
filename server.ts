@@ -9,12 +9,17 @@ import * as db from "./Util/db.js"
 import type { Poem } from "./Util/poem.js";
 import { parseJsonOrCsv, migratePoemstoDb } from "./Util/migrate_tools/migratetools.js";
 
+interface BookmarkStatus {
+    isBookmarked: number;
+}
+
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const buildDir = path.join(path.dirname(__filename), 'build/dist');
 app.use(cors());
-
+app.use(express.json())
+//db.deleteAllPoems();
 //migrate from json
 if (db.isEmpty()){
     const datasetRelativePath: string | undefined = process.argv[2];
@@ -27,7 +32,7 @@ if (db.isEmpty()){
         process.exitCode = 0;
     }
 }
-else{
+else {
     console.log("Database already setup. Continuing without migrating...");
 }
 
@@ -56,6 +61,51 @@ app.get("/random", (req: Request, res: Response) => {
     res.json(results);
 })
 
+app.get("/bookmark/:id", (req: Request, res: Response) => {
+    const poemIDparam = req.params.id;
+    const poemIDString = poemIDparam?.slice(1, poemIDparam.length);
+    let isBookmarked = undefined;
+    if (poemIDString){
+        const poemID = parseInt(poemIDString);
+        isBookmarked = db.getIsBookmarked(poemID);
+    }
+
+    if (isBookmarked){
+        res.json(isBookmarked);
+        res.status(200).end();
+    }
+    else{
+        res.status(404).end();
+    }   
+})
+
+app.put("/bookmark/:id", (req: Request, res: Response) => {
+    const poemIDparam = req.params.id;
+    const poemIDString = poemIDparam?.slice(1, poemIDparam.length);
+    const bookmarkStatus: BookmarkStatus = req.body;
+    if (poemIDString){
+        //console.log(bookmarkStatus, db.getIsBookmarked(parseInt(poemIDString)))
+        const poemID = parseInt(poemIDString);
+        //console.log(poemID, "set :", bookmarkStatus.isBookmarked);
+        db.setIsBookmarked(poemID, bookmarkStatus.isBookmarked)
+
+        return res.status(200).end();
+    }
+    else{
+        return res.status(400).end()
+    }
+})
+
+app.get("/favourites", (req: Request, res: Response) => {
+    let results: Poem[] = db.getFavouritePoems();
+    if(results){
+        res.json(results);
+    }
+    else{
+        res.status(404)
+        res.end();
+    }
+})
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}...`);

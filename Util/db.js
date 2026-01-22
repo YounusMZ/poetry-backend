@@ -13,7 +13,8 @@ poemDb.prepare(`
         Title TEXT NOT NULL,
         Poem TEXT NOT NULL,
         Poet TEXT NOT NULL,
-        Tags TEXT
+        Tags TEXT,
+        isBookmarked BOOLEAN DEFAULT FALSE
     )
 `).run();
 export function getNoOfEntries() {
@@ -45,6 +46,20 @@ export function getPoemsWithID(poemIDs) {
     else
         return [];
 }
+export function getFavouritePoems() {
+    const getFavourites = poemDb.prepare("SELECT * FROM poems WHERE isBookmarked = 1").all();
+    return getFavourites;
+}
+export function getIsBookmarked(poemID) {
+    //console.log("hit")
+    const currentBookmarkStatus = poemDb.prepare("SELECT isBookmarked FROM poems WHERE id = ?").get(poemID);
+    console.log("FOR GET:", poemID, currentBookmarkStatus);
+    return currentBookmarkStatus;
+}
+export function setIsBookmarked(poemID, isBookmarked) {
+    const setQuery = poemDb.prepare("UPDATE poems SET isBookmarked = ? WHERE id = ?");
+    setQuery.run(isBookmarked, poemID);
+}
 //for testing
 export const getPoem = (index) => {
     const getPoemQuery = poemDb.prepare("SELECT * FROM poems WHERE id = ?");
@@ -53,5 +68,6 @@ export const getPoem = (index) => {
 };
 export function deleteAllPoems() {
     poemDb.prepare(`DELETE FROM poems`).run();
+    poemDb.prepare('DROP TABLE poems').run();
 }
 //# sourceMappingURL=db.js.map

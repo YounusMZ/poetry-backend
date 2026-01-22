@@ -8,6 +8,10 @@ interface CountResult{
     NoOfEntries : number;
 }
 
+interface BookmarkStatus {
+    isBookmarked: number;
+}
+
 const dbPath = path.join("./../database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
@@ -20,7 +24,8 @@ poemDb.prepare(`
         Title TEXT NOT NULL,
         Poem TEXT NOT NULL,
         Poet TEXT NOT NULL,
-        Tags TEXT
+        Tags TEXT,
+        isBookmarked BOOLEAN DEFAULT FALSE
     )
 `).run();
 
@@ -31,7 +36,7 @@ export function getNoOfEntries(){
 
 export function isEmpty(){
     const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get() as CountResult;
-    const countNumber: Boolean = count.NoOfEntries == 0 ? true : false;
+    const countNumber: boolean = count.NoOfEntries == 0 ? true : false;
     return countNumber;
 }
 
@@ -56,6 +61,22 @@ export function getPoemsWithID(poemIDs: number[]): Poem[] {
     } else return [];
 }
 
+export function getFavouritePoems(): Poem[]{
+    const getFavourites = poemDb.prepare<[], Poem>("SELECT * FROM poems WHERE isBookmarked = 1").all();
+    return getFavourites;
+}
+
+export function getIsBookmarked(poemID: number): BookmarkStatus | undefined {
+    const currentBookmarkStatus = poemDb.prepare<number, BookmarkStatus>("SELECT isBookmarked FROM poems WHERE id = ?").get(poemID);
+    //console.log("GET:", poemID, currentBookmarkStatus)
+    return currentBookmarkStatus;
+}
+
+export function setIsBookmarked(poemID: number, isBookmarked: number){
+    const setQuery = poemDb.prepare("UPDATE poems SET isBookmarked = ? WHERE id = ?");
+    setQuery.run(isBookmarked, poemID);
+}
+
 //for testing
 export const getPoem = (index: number): Poem | undefined => {
     const getPoemQuery = poemDb.prepare<number, Poem>("SELECT * FROM poems WHERE id = ?")
@@ -65,4 +86,5 @@ export const getPoem = (index: number): Poem | undefined => {
 
 export function deleteAllPoems(){
     poemDb.prepare(`DELETE FROM poems`).run();
+    poemDb.prepare('DROP TABLE poems').run();
 }

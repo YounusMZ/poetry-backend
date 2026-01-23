@@ -4,9 +4,12 @@ export interface Poem {
     Poem: string;
     Poet: string;
     Tags: string | null;
-    Is_bookmarked: boolean;
+    isBookmarked: boolean;
 }
 export interface PoemCollection {
     [index: number]: Poem;
+}
+export interface BookmarkStatus {
+    isBookmarked: number;
 }
 //# sourceMappingURL=poem.d.ts.map

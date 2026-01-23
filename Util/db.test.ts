@@ -19,7 +19,7 @@ test('test addPoem function', () => {
         Poem: "Poem",
         Poet: "Traveller",
         Tags: null,
-        Is_bookmarked: false
+        isBookmarked: false
     }
     db.addPoem(newPoem);
     expect(db.getPoem(newPoemID)).toEqual(newPoem);

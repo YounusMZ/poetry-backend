@@ -12,7 +12,7 @@ interface BookmarkStatus {
     isBookmarked: number;
 }
 
-const dbPath = path.join("./../database");
+const dbPath = path.join("./database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }
@@ -68,7 +68,6 @@ export function getFavouritePoems(): Poem[]{
 
 export function getIsBookmarked(poemID: number): BookmarkStatus | undefined {
     const currentBookmarkStatus = poemDb.prepare<number, BookmarkStatus>("SELECT isBookmarked FROM poems WHERE id = ?").get(poemID);
-    //console.log("GET:", poemID, currentBookmarkStatus)
     return currentBookmarkStatus;
 }
 

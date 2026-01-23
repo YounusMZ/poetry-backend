@@ -2,7 +2,7 @@ import BetterSqlite3 from "better-sqlite3";
 import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
-const dbPath = path.join("./../database");
+const dbPath = path.join("./database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }
@@ -51,9 +51,7 @@ export function getFavouritePoems() {
     return getFavourites;
 }
 export function getIsBookmarked(poemID) {
-    //console.log("hit")
     const currentBookmarkStatus = poemDb.prepare("SELECT isBookmarked FROM poems WHERE id = ?").get(poemID);
-    console.log("FOR GET:", poemID, currentBookmarkStatus);
     return currentBookmarkStatus;
 }
 export function setIsBookmarked(poemID, isBookmarked) {

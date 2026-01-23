@@ -6,20 +6,14 @@ import path from "path";
 import { fileURLToPath } from "url";
 import favicon from "serve-favicon";
 import * as db from "./Util/db.js"
-import type { Poem } from "./Util/poem.js";
+import type { Poem, BookmarkStatus } from "./Util/poem.js";
 import { parseJsonOrCsv, migratePoemstoDb } from "./Util/migrate_tools/migratetools.js";
-
-interface BookmarkStatus {
-    isBookmarked: number;
-}
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;
-const __filename = fileURLToPath(import.meta.url);
-const buildDir = path.join(path.dirname(__filename), 'build/dist');
 app.use(cors());
 app.use(express.json())
-//db.deleteAllPoems();
+
 //migrate from json
 if (db.isEmpty()){
     const datasetRelativePath: string | undefined = process.argv[2];
@@ -37,6 +31,8 @@ else {
 }
 
 //APIs
+const __filename = fileURLToPath(import.meta.url);
+const buildDir = path.join(path.dirname(__filename), 'build/dist');
 if(fs.existsSync(buildDir)) {
     app.use(express.static(buildDir));
     app.use(favicon(path.join(buildDir, "vite.svg")));
@@ -84,9 +80,7 @@ app.put("/bookmark/:id", (req: Request, res: Response) => {
     const poemIDString = poemIDparam?.slice(1, poemIDparam.length);
     const bookmarkStatus: BookmarkStatus = req.body;
     if (poemIDString){
-        //console.log(bookmarkStatus, db.getIsBookmarked(parseInt(poemIDString)))
         const poemID = parseInt(poemIDString);
-        //console.log(poemID, "set :", bookmarkStatus.isBookmarked);
         db.setIsBookmarked(poemID, bookmarkStatus.isBookmarked)
 
         return res.status(200).end();

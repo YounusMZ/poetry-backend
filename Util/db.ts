@@ -12,7 +12,7 @@ interface BookmarkStatus {
     isBookmarked: number;
 }
 
-const dbPath = path.join("./database");
+const dbPath = path.resolve("/home/node/database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }

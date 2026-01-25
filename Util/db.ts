@@ -52,6 +52,14 @@ export function searchForPoems(searchTerms: string[]): Poem[]{
     return searchPoems;
 }
 
+export function getSinglePoem(poemID: number): Poem | undefined {
+    if(!isEmpty() && poemID != undefined){
+        const getRandomQuery = poemDb.prepare<number, Poem>(`SELECT * FROM poems WHERE id = ?`);
+        const poem = getRandomQuery.get(poemID);
+        return poem;
+    }
+}
+
 export function getPoemsWithID(poemIDs: number[]): Poem[] {
     if (!isEmpty()){
         const poemIDsString = poemIDs.join(", ");

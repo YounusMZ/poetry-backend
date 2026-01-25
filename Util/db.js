@@ -36,6 +36,13 @@ export function searchForPoems(searchTerms) {
     const searchPoems = poemDb.prepare(`SELECT * FROM poems WHERE ${whereClause}`).all();
     return searchPoems;
 }
+export function getSinglePoem(poemID) {
+    if (!isEmpty() && poemID != undefined) {
+        const getRandomQuery = poemDb.prepare(`SELECT * FROM poems WHERE id = ?`);
+        const poem = getRandomQuery.get(poemID);
+        return poem;
+    }
+}
 export function getPoemsWithID(poemIDs) {
     if (!isEmpty()) {
         const poemIDsString = poemIDs.join(", ");

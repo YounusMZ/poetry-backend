@@ -3,7 +3,6 @@ import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
 const dbPath = path.resolve("/home/node/database");
-console.log(dbPath);
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }

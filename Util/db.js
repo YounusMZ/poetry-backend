@@ -2,7 +2,11 @@ import BetterSqlite3 from "better-sqlite3";
 import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
-const dbPath = path.resolve("/database");
+import { fileURLToPath } from "url";
+import { migratefromJsonOrCsv } from "./migrate.js";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dbPath = path.join(__dirname + "/database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }
@@ -17,6 +21,7 @@ poemDb.prepare(`
         isBookmarked BOOLEAN DEFAULT FALSE
     )
 `).run();
+migratefromJsonOrCsv();
 export function getNoOfEntries() {
     const count = poemDb.prepare(`SELECT COUNT(*) AS NoOfEntries FROM poems`).get();
     return count.NoOfEntries;

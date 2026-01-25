@@ -7,7 +7,6 @@ import { fileURLToPath } from "url";
 import favicon from "serve-favicon";
 import * as db from "./Util/db.js"
 import type { Poem, BookmarkStatus } from "./Util/poem.js";
-import { parseJsonOrCsv, migratePoemstoDb } from "./Util/migrate_tools/migratetools.js";
 import { apiRouter } from "./apiRouter.js";
 
 const app = express();
@@ -23,20 +22,7 @@ if(fs.existsSync(buildDir)) {
 }
 
 //migrate from json
-if (db.isEmpty()){
-    const datasetRelativePath: string | undefined = process.argv[2];
-    if (datasetRelativePath){
-        const parsedData = parseJsonOrCsv(datasetRelativePath);
-        migratePoemstoDb(parsedData);
-    }
-    else {
-        console.log("The poem database is empty. Use 'node server 'filename.json' or 'filename.csv' to migrate data. Read ReadMe.md for more details.");
-        process.exitCode = 0;
-    }
-}
-else {
-    console.log("Database already setup. Continuing without migrating...");
-}
+
 
 app.use((req, res) => {
   return res.sendFile(path.join(buildDir, 'index.html'));

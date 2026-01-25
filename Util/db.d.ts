@@ -8,6 +8,7 @@ export declare function getNoOfEntries(): number;
 export declare function isEmpty(): boolean;
 export declare function addPoem(poem: Poem): void;
 export declare function searchForPoems(searchTerms: string[]): Poem[];
+export declare function getSinglePoem(poemID: number): Poem | undefined;
 export declare function getPoemsWithID(poemIDs: number[]): Poem[];
 export declare function getFavouritePoems(): Poem[];
 export declare function getIsBookmarked(poemID: number): BookmarkStatus | undefined;

@@ -41,8 +41,20 @@ if(fs.existsSync(buildDir)) {
     })
 }
 
+app.get("/poem/:id", (req: Request, res: Response) => {
+    const poemIDparam = req.params.id;
+    if (poemIDparam){
+        const poem = db.getSinglePoem(parseInt(poemIDparam))
+        res.json(poem);
+        res.status(200).end();
+    }
+    else {
+        res.status(404).end("invalid input");
+    }
+})
+
 app.get("/search", (req: Request, res: Response) => {
-    const bookTerms: string[] | undefined = req.query.poem?.toString().split("%20");
+    const bookTerms: string[] | undefined = req.query.poem?.toString().split(" ");
     let results: Array<Poem> = [];
     if (bookTerms){
         results = db.searchForPoems(bookTerms);
@@ -59,10 +71,9 @@ app.get("/random", (req: Request, res: Response) => {
 
 app.get("/bookmark/:id", (req: Request, res: Response) => {
     const poemIDparam = req.params.id;
-    const poemIDString = poemIDparam?.slice(1, poemIDparam.length);
     let isBookmarked = undefined;
-    if (poemIDString){
-        const poemID = parseInt(poemIDString);
+    if (poemIDparam){
+        const poemID = parseInt(poemIDparam);
         isBookmarked = db.getIsBookmarked(poemID);
     }
 
@@ -77,10 +88,9 @@ app.get("/bookmark/:id", (req: Request, res: Response) => {
 
 app.put("/bookmark/:id", (req: Request, res: Response) => {
     const poemIDparam = req.params.id;
-    const poemIDString = poemIDparam?.slice(1, poemIDparam.length);
     const bookmarkStatus: BookmarkStatus = req.body;
-    if (poemIDString){
-        const poemID = parseInt(poemIDString);
+    if (poemIDparam){
+        const poemID = parseInt(poemIDparam);
         db.setIsBookmarked(poemID, bookmarkStatus.isBookmarked)
 
         return res.status(200).end();

@@ -1,6 +1,6 @@
 # Poetry
 
-Built for poets and poem enthusiasts, Poetry allows you to view random poems for the serendipity, search for poems and bookmark your favourites. Poetry provides a minimalist UI and allows migrating poems from a local JSON or CSV file. This repo serves the backend for [poetry-frontend](https://github.com/YounusMZ/poetry-frontend). 
+Backend for [poetry-frontend](https://github.com/YounusMZ/poetry-frontend). Built for poets and poem enthusiasts, Poetry allows you to view random poems for the serendipity, search for poems and bookmark your favourites. Poetry provides a minimalist UI and allows migrating poems from a local JSON or CSV file. 
 
 ## Demo
 

@@ -15,7 +15,7 @@ Built for poets and poem enthusiasts, Poetry allows you to view random poems for
 ## Description
 
 ## Features
-* Migrate poems from csv and json to local SQLITE database
+* Migrate poems from CSV and JSON to local SQLITE database
 * View random poems to find the ones you may have missed
 * Search for poems by title
 * Boomark your favourite poems

@@ -37,8 +37,9 @@ export function addPoem(poem) {
 }
 export function searchForPoems(searchTerms) {
     const searchparams = searchTerms.map(term => `'%${term}%'`);
-    const whereClause = searchparams.map(param => `title LIKE ${param}`).join(' AND ');
-    const searchPoems = poemDb.prepare(`SELECT * FROM poems WHERE ${whereClause}`).all();
+    const titleLikeClause = searchparams.map(param => `Title LIKE ${param}`).join(' AND ');
+    const poetLikeClause = searchparams.map(param => `Poet LIKE ${param}`).join(' AND ');
+    const searchPoems = poemDb.prepare(`SELECT * FROM poems WHERE ${titleLikeClause} OR ${poetLikeClause}`).all();
     return searchPoems;
 }
 export function getSinglePoem(poemID) {

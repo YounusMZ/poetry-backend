@@ -16,7 +16,6 @@ const buildDir = path.join(path.dirname(__filename), 'dist');
 if (fs.existsSync(buildDir)) {
     app.use(express.static(buildDir));
 }
-//migrate from json
 app.use((req, res) => {
     return res.sendFile(path.join(buildDir, 'index.html'));
 });

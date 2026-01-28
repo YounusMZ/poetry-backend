@@ -3,19 +3,11 @@ import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import type { Poem } from "./../types/poem/poem.js";
+import type { Poem, SearchResults, BookmarkStatus } from "./../types/poem/poem.js";
 import { migratefromJsonOrCsv } from "./../scripts/migrate/migrate.js";
 
 interface CountResult{
     NoOfEntries : number;
-}
-
-interface BookmarkStatus {
-    isBookmarked: number;
-}
-
-export interface SearchResults extends Poem {
-    totalCount: number;
 }
 
 const __filename = fileURLToPath(import.meta.url);

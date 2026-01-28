@@ -9,6 +9,9 @@ export interface Poem {
 export interface PoemCollection {
     [index: number]: Poem;
 }
+export interface SearchResults extends Poem {
+    totalCount: number;
+}
 export interface BookmarkStatus {
     isBookmarked: number;
 }

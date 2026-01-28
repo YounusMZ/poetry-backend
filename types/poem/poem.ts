@@ -5,11 +5,15 @@ export interface Poem {
     Poet: string,
     Tags: string | null,
     isBookmarked: boolean;
-};
+}
 
 export interface PoemCollection {
     [index : number]: Poem;
-};
+}
+
+export interface SearchResults extends Poem {
+    totalCount: number;
+}
 
 export interface BookmarkStatus {
     isBookmarked: number;

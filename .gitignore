@@ -1,5 +1,3 @@
-.gitignore
-
 .dockerignore
 
 Dockerfile
@@ -9,7 +7,3 @@ README.Docker.md
 compose.yaml
 
 node_modules/
-
-build/
-
-database/

@@ -36,7 +36,3 @@ test('test getPoemsWithID function', () => {
     }
     expect(errorFlag).toBe(false);
 })
-
-afterAll(() => {
-    db.deleteAllPoems();
-})

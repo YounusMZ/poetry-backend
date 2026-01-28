@@ -35,12 +35,15 @@ export function addPoem(poem) {
     const insertPoem = poemDb.prepare(`INSERT OR IGNORE INTO poems (id, Title, Poem, Poet, Tags) VALUES (?, ?, ?, ?, ?)`);
     insertPoem.run(poem.id, poem.Title, poem.Poem, poem.Poet, poem.Tags);
 }
-export function searchForPoems(searchTerms) {
+export function searchForPoems(searchTerms, pageNumber) {
+    const noOfItems = 10;
+    const offset = (pageNumber - 1) * 10;
     const searchparams = searchTerms.map(term => `'%${term}%'`);
     const titleLikeClause = searchparams.map(param => `Title LIKE ${param}`).join(' AND ');
     const poetLikeClause = searchparams.map(param => `Poet LIKE ${param}`).join(' AND ');
-    const searchPoems = poemDb.prepare(`SELECT * FROM poems WHERE ${titleLikeClause} OR ${poetLikeClause}`).all();
-    return searchPoems;
+    const results = poemDb.prepare(`SELECT *, COUNT(*) OVER() AS totalCount FROM poems WHERE ${titleLikeClause} OR ${poetLikeClause}
+        ORDER BY id DESC LIMIT ${noOfItems} OFFSET ${offset}`).all();
+    return results;
 }
 export function getSinglePoem(poemID) {
     if (!isEmpty() && poemID != undefined) {
@@ -59,8 +62,9 @@ export function getPoemsWithID(poemIDs) {
     else
         return [];
 }
-export function getFavouritePoems() {
-    const getFavourites = poemDb.prepare("SELECT * FROM poems WHERE isBookmarked = 1").all();
+export function getFavouritePoems(pageNumber) {
+    const offset = (pageNumber - 1) * 10;
+    const getFavourites = poemDb.prepare("SELECT *, COUNT(*) OVER() AS totalCount FROM poems WHERE isBookmarked = 1 LIMIT 10 OFFSET ?").all(offset);
     return getFavourites;
 }
 export function getIsBookmarked(poemID) {

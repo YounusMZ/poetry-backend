@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as db from "./Util/db.js";
+import {} from "./Util/db.js";
 export const apiRouter = Router();
 apiRouter.get("/poem/:id", (req, res) => {
     const poemIDparam = req.params.id;
@@ -13,12 +14,22 @@ apiRouter.get("/poem/:id", (req, res) => {
     }
 });
 apiRouter.get("/search", (req, res) => {
-    const bookTerms = req.query.poem?.toString().split(" ");
+    const bookTerms = req.query.poem?.toString().split("+");
+    const pageNumberString = req.query.page?.toString();
     let results = [];
-    if (bookTerms) {
-        results = db.searchForPoems(bookTerms);
+    if (bookTerms && pageNumberString) {
+        const pageNumber = parseInt(pageNumberString);
+        if (pageNumber) {
+            results = db.searchForPoems(bookTerms, pageNumber);
+            res.json(results);
+        }
+        else {
+            res.status(404).end();
+        }
     }
-    res.json(results);
+    else {
+        res.status(404).end();
+    }
 });
 apiRouter.get("/random", (req, res) => {
     let randomNumbers = Array.from({ length: 10 }, () => Math.floor(Math.random() * db.getNoOfEntries()));
@@ -53,8 +64,10 @@ apiRouter.put("/bookmark/:id", (req, res) => {
     }
 });
 apiRouter.get("/favourites", (req, res) => {
-    let results = db.getFavouritePoems();
-    if (results) {
+    const pageNumberString = req.query.page?.toString();
+    if (pageNumberString) {
+        const pageNumber = parseInt(pageNumberString);
+        const results = db.getFavouritePoems(pageNumber);
         res.json(results);
     }
     else {

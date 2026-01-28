@@ -1,7 +1,8 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import type { Poem, BookmarkStatus } from "./Util/poem.js";
-import * as db from "./Util/db.js"
+import * as db from "./Util/db.js";
+import { type SearchResults } from "./Util/db.js";
 
 export const apiRouter = Router();
 
@@ -18,12 +19,22 @@ apiRouter.get("/poem/:id", (req: Request, res: Response) => {
 })
 
 apiRouter.get("/search", (req: Request, res: Response) => {
-    const bookTerms: string[] | undefined = req.query.poem?.toString().split(" ");
-    let results: Array<Poem> = [];
-    if (bookTerms){
-        results = db.searchForPoems(bookTerms);
+    const bookTerms: string[] | undefined = req.query.poem?.toString().split("+");
+    const pageNumberString: string | undefined = req.query.page?.toString();
+    let results: Array<SearchResults> = [];
+    if (bookTerms && pageNumberString){
+        const pageNumber = parseInt(pageNumberString);
+        if (pageNumber){
+            results = db.searchForPoems(bookTerms, pageNumber);
+            res.json(results);
+        }
+        else {
+            res.status(404).end("Not Found");
+        }
     }
-    res.json(results);
+    else {
+        res.status(404).end("invalid input");
+    }
 })
 
 
@@ -46,7 +57,7 @@ apiRouter.get("/bookmark/:id", (req: Request, res: Response) => {
         res.status(200).end();
     }
     else{
-        res.status(404).end();
+        res.status(404).end("Not Found");
     }   
 })
 
@@ -56,20 +67,21 @@ apiRouter.put("/bookmark/:id", (req: Request, res: Response) => {
     if (poemIDparam){
         const poemID = parseInt(poemIDparam);
         db.setIsBookmarked(poemID, bookmarkStatus.isBookmarked)
-
         return res.status(200).end();
     }
     else{
-        return res.status(400).end()
+        return res.status(400).end("Not Found")
     }
 })
 
 apiRouter.get("/favourites", (req: Request, res: Response) => {
-    let results: Poem[] = db.getFavouritePoems();
-    if(results){
+    const pageNumberString: string | undefined = req.query.page?.toString();
+    if(pageNumberString){
+        const pageNumber = parseInt(pageNumberString);
+        const results = db.getFavouritePoems(pageNumber);
         res.json(results);
     }
     else{
-        res.status(404).end()
+        res.status(404).end("Not Found")
     }
 })

@@ -1,10 +1,9 @@
-import { parseJsonOrCsv, migratePoemstoDb} from "./migrate_tools/migratetools.js";
-import * as db from "./db.js";
-
+import { parseJsonOrCsv, migratePoemstoDb } from "./../../util/migrate_tools/migratetools.js";
+import * as db from "./../../db/db.js";
 export const migratefromJsonOrCsv = () => {
-    if (db.isEmpty()){
-        const datasetRelativePath: string | undefined = process.argv[2];
-        if (datasetRelativePath){
+    if (db.isEmpty()) {
+        const datasetRelativePath = process.argv[2];
+        if (datasetRelativePath) {
             const parsedData = parseJsonOrCsv(datasetRelativePath);
             migratePoemstoDb(parsedData);
         }
@@ -16,4 +15,5 @@ export const migratefromJsonOrCsv = () => {
     else {
         console.log("Database already setup. Continuing without migrating...");
     }
-}
+};
+//# sourceMappingURL=migrate.js.map

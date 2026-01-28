@@ -1,8 +1,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
-import type { Poem, BookmarkStatus } from "./Util/poem.js";
-import * as db from "./Util/db.js";
-import { type SearchResults } from "./Util/db.js";
+import type { Poem, BookmarkStatus } from "./../types/poem/poem.js";
+import * as db from "./../db/db.js";
 
 export const apiRouter = Router();
 
@@ -21,7 +20,7 @@ apiRouter.get("/poem/:id", (req: Request, res: Response) => {
 apiRouter.get("/search", (req: Request, res: Response) => {
     const bookTerms: string[] | undefined = req.query.poem?.toString().split("+");
     const pageNumberString: string | undefined = req.query.page?.toString();
-    let results: Array<SearchResults> = [];
+    let results: Array<db.SearchResults> = [];
     if (bookTerms && pageNumberString){
         const pageNumber = parseInt(pageNumberString);
         if (pageNumber){

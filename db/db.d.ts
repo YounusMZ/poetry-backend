@@ -1,5 +1,5 @@
 import BetterSqlite3 from "better-sqlite3";
-import type { Poem } from "./poem.js";
+import type { Poem } from "./../types/poem/poem.js";
 interface BookmarkStatus {
     isBookmarked: number;
 }

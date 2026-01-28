@@ -1,6 +1,5 @@
 import * as db from "./db.js";
-import { type Poem } from "./poem.js" 
-import BetterSqlite3 from "better-sqlite3";
+import { type Poem } from "./../types/poem/poem.js"
 
 test('test isEmpty function', () => {
     if (db.isEmpty()){

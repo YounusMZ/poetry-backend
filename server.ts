@@ -1,13 +1,9 @@
 import express  from "express";
-import type { Request, Response } from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import favicon from "serve-favicon";
-import * as db from "./Util/db.js"
-import type { Poem, BookmarkStatus } from "./Util/poem.js";
-import { apiRouter } from "./apiRouter.js";
+import { apiRouter } from "./router/apiRouter.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 3000;

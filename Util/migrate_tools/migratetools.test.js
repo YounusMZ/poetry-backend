@@ -1,6 +1,6 @@
 import { parseJsonOrCsv, migratePoemstoDb } from "./migratetools.js";
-import * as db from "./../db.js";
-import {} from "../poem.js";
+import * as db from "./../../db/db.js";
+import {} from "./../../types/poem/poem.js";
 beforeAll(() => {
     if (!db.isEmpty()) {
         db.deleteAllPoems();

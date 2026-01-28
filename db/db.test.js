@@ -1,6 +1,5 @@
 import * as db from "./db.js";
-import {} from "./poem.js";
-import BetterSqlite3 from "better-sqlite3";
+import {} from "./../types/poem/poem.js";
 test('test isEmpty function', () => {
     if (db.isEmpty()) {
         expect(db.getNoOfEntries()).toEqual(0);

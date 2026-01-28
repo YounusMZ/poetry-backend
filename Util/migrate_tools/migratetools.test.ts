@@ -1,6 +1,6 @@
 import { parseJsonOrCsv, migratePoemstoDb} from "./migratetools.js";
-import * as db from "./../db.js";
-import { type PoemCollection } from "../poem.js";
+import * as db from "./../../db/db.js";
+import { type PoemCollection } from "./../../types/poem/poem.js";
 
 beforeAll(() => {
     if(!db.isEmpty()){

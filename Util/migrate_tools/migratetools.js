@@ -1,6 +1,6 @@
 import fs from "fs";
 import papa from "papaparse";
-import * as db from "./../db.js";
+import * as db from "./../../db/db.js";
 export const migratePoemstoDb = (parsedData) => {
     if (parsedData) {
         const poems = Object.entries(parsedData);

@@ -3,8 +3,8 @@ import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import type { Poem } from "./poem.js";
-import { migratefromJsonOrCsv } from "./migrate.js";
+import type { Poem } from "./../types/poem/poem.js";
+import { migratefromJsonOrCsv } from "./../scripts/migrate/migrate.js";
 
 interface CountResult{
     NoOfEntries : number;

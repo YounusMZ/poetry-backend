@@ -1,6 +1,5 @@
 import { Router } from "express";
-import * as db from "./Util/db.js";
-import {} from "./Util/db.js";
+import * as db from "./../db/db.js";
 export const apiRouter = Router();
 apiRouter.get("/poem/:id", (req, res) => {
     const poemIDparam = req.params.id;
@@ -24,11 +23,11 @@ apiRouter.get("/search", (req, res) => {
             res.json(results);
         }
         else {
-            res.status(404).end();
+            res.status(404).end("Not Found");
         }
     }
     else {
-        res.status(404).end();
+        res.status(404).end("invalid input");
     }
 });
 apiRouter.get("/random", (req, res) => {
@@ -48,7 +47,7 @@ apiRouter.get("/bookmark/:id", (req, res) => {
         res.status(200).end();
     }
     else {
-        res.status(404).end();
+        res.status(404).end("Not Found");
     }
 });
 apiRouter.put("/bookmark/:id", (req, res) => {
@@ -60,7 +59,7 @@ apiRouter.put("/bookmark/:id", (req, res) => {
         return res.status(200).end();
     }
     else {
-        return res.status(400).end();
+        return res.status(400).end("Not Found");
     }
 });
 apiRouter.get("/favourites", (req, res) => {
@@ -71,7 +70,7 @@ apiRouter.get("/favourites", (req, res) => {
         res.json(results);
     }
     else {
-        res.status(404).end();
+        res.status(404).end("Not Found");
     }
 });
 //# sourceMappingURL=apiRouter.js.map

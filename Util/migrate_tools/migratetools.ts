@@ -1,7 +1,7 @@
 import fs from "fs";
 import papa from "papaparse";
-import * as db from "./../db.js";
-import type { PoemCollection } from "../poem.js";
+import * as db from "./../../db/db.js";
+import type { PoemCollection } from "./../../types/poem/poem.js";
 
 export const migratePoemstoDb = (parsedData: PoemCollection) => {
     if (parsedData){

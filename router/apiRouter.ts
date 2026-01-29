@@ -40,7 +40,13 @@ apiRouter.get("/search", (req: Request, res: Response) => {
 apiRouter.get("/random", (req: Request, res: Response) => {
     let randomNumbers: Array<number> = Array.from({ length: 10 }, () => Math.floor(Math.random() * db.getNoOfEntries()));
     const results: Array<Poem> = db.getPoemsWithID(randomNumbers);
-    res.json(results);
+    if (results){
+        res.json(results);
+        res.status(200).end();
+    }
+    else {
+        res.status(404).end()
+    }
 })
 
 apiRouter.get("/bookmark/:id", (req: Request, res: Response) => {
@@ -55,7 +61,7 @@ apiRouter.get("/bookmark/:id", (req: Request, res: Response) => {
         res.json(isBookmarked);
         res.status(200).end();
     }
-    else{
+    else {
         res.status(404).end("Not Found");
     }   
 })
@@ -68,8 +74,8 @@ apiRouter.put("/bookmark/:id", (req: Request, res: Response) => {
         db.setIsBookmarked(poemID, bookmarkStatus.isBookmarked)
         return res.status(200).end();
     }
-    else{
-        return res.status(400).end("Not Found")
+    else {
+        return res.status(400).end("Not Found");
     }
 })
 
@@ -80,7 +86,20 @@ apiRouter.get("/favourites", (req: Request, res: Response) => {
         const results = db.getFavouritePoems(pageNumber);
         res.json(results);
     }
-    else{
-        res.status(404).end("Not Found")
+    else {
+        res.status(404).end("Not Found");
+    }
+})
+
+apiRouter.get("/poems", (req: Request, res: Response) => {
+    const poemsIDparam: string[] | undefined = req.query.id?.toString().split("+");
+    if (poemsIDparam){
+        const poemIDs = poemsIDparam.map(poemID => parseInt(poemID))
+        const results: Array<Poem> = db.getPoemsWithID(poemIDs);
+        res.json(results);
+        res.status(200).end();
+    }
+    else {
+        res.status(404).end("Not Found");
     }
 })

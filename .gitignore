@@ -6,4 +6,10 @@ README.Docker.md
 
 compose.yaml
 
+<<<<<<< HEAD
 node_modules/
+=======
+node_modules/
+
+database/
+>>>>>>> main

@@ -4,9 +4,7 @@ import fs, { mkdirSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { migratefromJsonOrCsv } from "./../scripts/migrate/migrate.js";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dbPath = path.join(__dirname + "/database");
+const dbPath = path.resolve("/home/node/database");
 if (!fs.existsSync(dbPath)) {
     mkdirSync(dbPath);
 }

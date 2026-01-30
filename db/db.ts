@@ -1,8 +1,6 @@
-import BetterSqlite3 from "better-sqlite3";
 import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import type { Poem, SearchResults, BookmarkStatus } from "./../types/poem/poem.js";
 import { migratefromJsonOrCsv } from "./../scripts/migrate/migrate.js";
 

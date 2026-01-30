@@ -83,6 +83,5 @@ export const getPoem = (index) => {
 };
 export function deleteAllPoems() {
     poemDb.prepare(`DELETE FROM poems`).run();
-    poemDb.prepare('DROP TABLE poems').run();
 }
 //# sourceMappingURL=db.js.map

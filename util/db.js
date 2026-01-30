@@ -1,8 +1,6 @@
-import BetterSqlite3 from "better-sqlite3";
 import Database from "better-sqlite3";
 import fs, { mkdirSync } from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import { migratefromJsonOrCsv } from "./migrate.js";
 const dbPath = path.resolve("/home/node/database");
 if (!fs.existsSync(dbPath)) {

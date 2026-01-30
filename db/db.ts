@@ -100,5 +100,4 @@ export const getPoem = (index: number): Poem | undefined => {
 
 export function deleteAllPoems(){
     poemDb.prepare(`DELETE FROM poems`).run();
-    poemDb.prepare('DROP TABLE poems').run();
 }

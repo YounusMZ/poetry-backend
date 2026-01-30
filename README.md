@@ -6,11 +6,7 @@ Backend for [poetry-frontend](https://github.com/YounusMZ/poetry-frontend). Buil
 
 - Live Site: https://poetry-backend-wv7w.onrender.com (Note: Render free-tier does not have persistent disk, so no changes are stored on sleep. It takes about a min to start up as well.)
 - Run `docker pull ghcr.io/younusmz/poetry-backend:latest` to pull the docker image. Make a container and run. That's a quick way to spin it up.
-- Screenshots:
-  
-<img width="1920" height="1200" alt="Screenshot (36)" src="https://github.com/user-attachments/assets/3f986763-65fa-4e32-9503-107378c0a807" />
-<img width="1920" height="1200" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/89751b15-013f-4786-872d-a77d66eea79d" />
-<img width="1920" height="1200" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/ea720a90-fcc8-4974-a08a-8924f20b8b37" />
+
 
 ## Description
 
@@ -99,14 +95,20 @@ To run:
   - `GET api/poem/:id`
   - `GET api/bookmark/:id`
   - `PUT api/bookmark/:id`
-  - `GET api/search`
+  - `GET api/search?poem=poemName&page=pageNumber`
   - `GET api/random`
-  - `GET api/favourites`
+  - `GET api/favourites?page=pageNumber`
+  - `GET api/poems?ids=poemids`
 
 ### What I've learned
-  - Learned how to better structure code in a full stack project. I refactored the code better to improve the readability and modularity.
   - Worked with react bootstrap and gained more confidence in working with bootstrap. Learned to employ responsive design with bootstrap. 
   - Released the docker image of the app on GHCR.
+
+### Screenshots
+- Screenshots: 
+<img width="1920" height="1200" alt="Screenshot (36)" src="https://github.com/user-attachments/assets/3f986763-65fa-4e32-9503-107378c0a807" />
+<img width="1920" height="1200" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/89751b15-013f-4786-872d-a77d66eea79d" />
+<img width="1920" height="1200" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/ea720a90-fcc8-4974-a08a-8924f20b8b37" />
 
 ## License
   MIT

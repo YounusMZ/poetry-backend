@@ -4,7 +4,7 @@ export interface Poem {
     Poem: string;
     Poet: string;
     Tags: string | null;
-    isBookmarked: boolean;
+    isBookmarked: number;
 }
 export interface PoemCollection {
     [index: number]: Poem;

@@ -7,7 +7,14 @@ export const migratePoemstoDb = (parsedData) => {
         const NoOfEntries = poems.length;
         if ((NoOfEntries - 1) > db.getNoOfEntries()) {
             for (const [key, value] of poems) {
-                db.addPoem(value);
+                db.addPoem({
+                    id: 0,
+                    title: value.Title,
+                    poem: value.Poem,
+                    poet: value.Poet,
+                    tags: value.Tags,
+                    isBookmarked: 0
+                });
                 console.log("Progress: ", parseInt(key), "/", NoOfEntries, Math.round(parseInt(key) / NoOfEntries * 100), "%");
             }
         }

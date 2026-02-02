@@ -12,10 +12,10 @@ test('test addPoem function', () => {
     const newPoemID = db.getNoOfEntries();
     const newPoem = {
         id: newPoemID,
-        Title: "Traveller's Poem",
-        Poem: "Poem",
-        Poet: "Traveller",
-        Tags: null,
+        title: "Traveller's Poem",
+        poem: "Poem",
+        poet: "Traveller",
+        tags: null,
         isBookmarked: 0
     };
     db.addPoem(newPoem);

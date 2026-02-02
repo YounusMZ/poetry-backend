@@ -20,11 +20,11 @@ if (!fs.existsSync(dbPath)) {
 export const poemDb : BetterSqlite3.Database = new Database(dbPath + '/poems.db');
 poemDb.prepare(`
     CREATE TABLE IF NOT EXISTS poems (
-        id INTEGER PRIMARY KEY,
-        Title TEXT NOT NULL,
-        Poem TEXT NOT NULL,
-        Poet TEXT NOT NULL,
-        Tags TEXT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        poem TEXT NOT NULL,
+        poet TEXT NOT NULL,
+        tags TEXT,
         isBookmarked BOOLEAN DEFAULT FALSE
     )
 `).run();
@@ -43,8 +43,8 @@ export function isEmpty(){
 }
 
 export function addPoem(poem: Poem){
-    const insertPoem = poemDb.prepare(`INSERT OR IGNORE INTO poems (id, Title, Poem, Poet, Tags) VALUES (?, ?, ?, ?, ?)`);
-    insertPoem.run(poem.id, poem.Title, poem.Poem, poem.Poet, poem.Tags);
+    const insertPoem = poemDb.prepare(`INSERT OR IGNORE INTO poems (title, poem, poet, tags) VALUES (?, ?, ?, ?)`);
+    insertPoem.run(poem.title, poem.poem, poem.poet, poem.tags);
 }
 
 export function searchForPoems(searchTerms: string[], pageNumber: number): SearchResults[]{

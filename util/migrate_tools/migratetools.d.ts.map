@@ -1,1 +1,1 @@
-{"version":3,"file":"migratetools.d.ts","sourceRoot":"","sources":["migratetools.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,4BAA4B,CAAC;AAEjE,eAAO,MAAM,gBAAgB,GAAI,YAAY,cAAc,SAe1D,CAAA;AAED,eAAO,MAAM,cAAc,GAAI,qBAAqB,MAAM,KAAG,cA2B5D,CAAA"}
+{"version":3,"file":"migratetools.d.ts","sourceRoot":"","sources":["migratetools.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,4BAA4B,CAAC;AAEjE,eAAO,MAAM,gBAAgB,GAAI,YAAY,cAAc,SAsB1D,CAAA;AAED,eAAO,MAAM,cAAc,GAAI,qBAAqB,MAAM,KAAG,cA2B5D,CAAA"}

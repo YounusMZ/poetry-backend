@@ -31,6 +31,6 @@ app.use((req, res) => {
   return res.sendFile(path.join(buildDir, 'index.html'));
 })
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server listening on port ${port}...`);
 })

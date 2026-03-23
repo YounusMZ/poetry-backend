@@ -46,10 +46,10 @@ This is a full-stack web application with a React frontend that communicates wit
 
 - **poems**
   - id
-  - Title
-  - Poem
-  - Poet
-  - Tags
+  - title
+  - poem
+  - poet
+  - tags
   - isBookmarked
   
 ## Getting Started
